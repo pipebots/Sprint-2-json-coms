@@ -1,4 +1,4 @@
-# Sprint-2
+# Sprint-2-json-coms
 ## Arduino - Code to send data between Arduino Nano 33 BLE Sense and a Raspberry Pi using serial via USB cable.
 Test setup sends imu data arduino to pi and sends numbers from pi to arduino which chnage the colour of the onboard rgb led. 
 
