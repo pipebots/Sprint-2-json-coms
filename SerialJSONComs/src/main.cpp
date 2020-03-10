@@ -4,11 +4,12 @@
 #include <ArduinoJson.h>
 #include <Arduino_LSM9DS1.h> //IMU
 #include <MadgwickAHRS.h> //for filtering & fusing IMU data
+#include <rgbLED.h>
 
 //function declarations-----------
 void readIMU();
 void sendData();
-void listenJSON();
+int listenJSON();
 //end funct decs --------------
 
 Madgwick filter;
@@ -36,6 +37,7 @@ void loop() {
 
   readIMU();
   sendData();
+//  redLED();
 //  listenJSON();
 
 }
@@ -83,10 +85,11 @@ Serial.println("");
 
 }
 
-void listenJSON(){
-//  if(Serial1.available()){
-//    StaticJsonDocument<100> pemdoc;
-//    deserializeJson(pemdoc,Serial1);
-  //  newPemState = pemdoc["pemsControl"];
-//  }
+int listenJSON(){
+  if(Serial.available()){
+    StaticJsonDocument<100> readJson;
+    deserializeJson(readJson,Serial1);
+    int led = readJson["LED"];
+    return led;
+  }
 }
