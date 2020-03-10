@@ -4,7 +4,7 @@
 #include <ArduinoJson.h>
 #include <Arduino_LSM9DS1.h> //IMU
 #include <MadgwickAHRS.h> //for filtering & fusing IMU data
-#include <rgbLED.cpp>
+#include <rgbLED.h>
 
 //function declarations-----------
 void readIMU();
@@ -37,7 +37,7 @@ void loop() {
 
   readIMU();
   sendData();
-  redLED();
+//  redLED();
 //  listenJSON();
 
 }

@@ -1,16 +1,6 @@
 // RGB LED Functions
 #include <Arduino.h>
 
-void greenLED();
-void blueLED();
-void redLED();
-void yellowLED();
-void magentaLED();
-void cyanLED();
-void offLED();
-void whiteLED();
-void rgbLED(int r, int g, int b);
-
 //pins for build in led on nano 33 sense
 #define R_LED_PIN         22
 #define G_LED_PIN         23
