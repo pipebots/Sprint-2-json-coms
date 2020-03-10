@@ -10,6 +10,7 @@
 void readIMU();
 void sendData();
 int listenJSON();
+void switchLED(int colour);
 //end funct decs --------------
 
 Madgwick filter;
@@ -17,7 +18,7 @@ Madgwick filter;
 long currentMillis1, prevMillis1 = 0;
 int time1 = 50; //IMU read delay
 float ax, ay, az, gx, gy, gz, roll, pitch, yaw = 0;
-int range = 0;
+int col = 0;
 
 void setup() {
     Serial.begin(9600);
@@ -31,14 +32,15 @@ void setup() {
     // Accelerometer range is set at [-4,+4]g -/+0.122 mg
     // Gyroscope range is set at [-2000, +2000] dps +/-70 mdps
    // both 104Hz sample rate}
+   offLED();
 }
 
 void loop() {
 
   readIMU();
   sendData();
-//  redLED();
-//  listenJSON();
+  col = listenJSON();
+  switchLED(col);
 
 }
 
@@ -73,7 +75,7 @@ void sendData(){
 const size_t capacity = JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(4);
 StaticJsonDocument<capacity> doc;
 
-doc["range"] = range;
+doc["Colour"] = col;
 
 JsonArray imu = doc.createNestedArray("imu");
 imu.add(roll);
@@ -88,8 +90,41 @@ Serial.println("");
 int listenJSON(){
   if(Serial.available()){
     StaticJsonDocument<100> readJson;
-    deserializeJson(readJson,Serial1);
+    deserializeJson(readJson,Serial);
     int led = readJson["LED"];
     return led;
+  }
+}
+
+void switchLED(int colour){
+  switch (colour){
+    case 0:
+      offLED();
+      break;
+    case 1:
+      greenLED();
+      break;
+    case 2:
+      blueLED();
+      break;
+    case 3:
+      redLED();
+      break;
+    case 4:
+      yellowLED();
+      break;
+    case 5:
+      magentaLED();
+      break;
+    case 6:
+      cyanLED();
+      break;
+    case 7:
+      whiteLED();
+      break;
+    default:
+      Serial.println("Error - no cases match");
+      offLED();
+      break;
   }
 }
