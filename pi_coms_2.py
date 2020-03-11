@@ -1,3 +1,12 @@
+#                                    __
+#__________.__             ___.     |__|  __          
+#\______   \__|_____   ____\_ |__   _||__/  |_  ______
+# |     ___/  \____ \_/ __ \| __ \ /  _ \   __\/  ___/
+# |    |   |  |  |_> >  ___/| \_\ (  O_O )  |  \___ \ 
+# |____|   |__|   __/ \___  >___  /\____/|__| /____  >
+#             |__|        \/    \/                 \/ 
+# Run on pi to listen for JSON doc and parse contents, also sends JSON via serial to ardunio
+
 import serial
 import json
 import time
