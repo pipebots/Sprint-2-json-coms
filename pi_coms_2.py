@@ -1,16 +1,25 @@
+#                                    __
+#__________.__             ___.     |__|  __          
+#\______   \__|_____   ____\_ |__   _||__/  |_  ______
+# |     ___/  \____ \_/ __ \| __ \ /  _ \   __\/  ___/
+# |    |   |  |  |_> >  ___/| \_\ (  O_O )  |  \___ \ 
+# |____|   |__|   __/ \___  >___  /\____/|__| /____  >
+#             |__|        \/    \/                 \/ 
+# Run on pi to listen for JSON doc and parse contents, also sends JSON via serial to ardunio
+
 import serial
 import json
 import time
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to arduino
 ser.flushInput()
 
 # function to read JSON doc from serial and parse variables from it
 def listenJSON():
     try:
-        readStr = ser.readline()
+        readStr = ser.readline() #doc is sent with line end termination
         #print(readStr)
-        readJson = json.loads(readStr)
+        readJson = json.loads(readStr) 
         #print(readJson)
         dist = readJson["Colour"]
         imu = readJson["imu"]
@@ -19,14 +28,14 @@ def listenJSON():
         yaw = imu[2]
         print(dist,roll,pitch,yaw,)
     except:
-        print("not valid json") #This usually only happens once at the start
+        print("not valid json") #At the start it is common for a partial JSON doc to be recieved and throw an error - this ignores it
         pass
 
 #function to send data formatted as JSON doc over serial
 def writeJSON(led):
     sendStr = json.dumps({'LED':led}, separators=(',',':')) + "\n"
     #print(sendStr)
-    ser.write(sendStr.encode('utf-8')) #has to be encoded into bits
+    ser.write(sendStr.encode('utf-8')) #has to be encoded into bits for .write
 
 i=0
 while True:
