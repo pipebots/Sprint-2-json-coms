@@ -15,19 +15,32 @@ ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to ardui
 ser.flushInput()
 
 # function to read JSON doc from serial and parse variables from it
+
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename = timestr + "-sprintbot-data.txt"
 def listenJSON():
     try:
         readStr = ser.readline() #doc is sent with line end termination
         #print(readStr)
         readJson = json.loads(readStr) 
         #print(readJson)
-        dist = readJson["Colour"]
+        wheel1Pos = readJson["wheel1Pos"]
+        wheel1Revs = readJson["wheel1Revs"]
+        wheel2Pos = readJson["wheel2Pos"]
+        wheel2Revs = readJson["wheel2Revs"]
+        
+        #dist = readJson["Colour"]
         imu = readJson["imu"]
         roll = imu[0]
         pitch = imu[1]
         yaw = imu[2]
-        print(dist,roll,pitch,yaw,)
+        print(roll,pitch,yaw,)
+        print(wheel1Pos, wheel1Revs, wheel2Pos, wheel2Revs)
+        
+        with open(filename, 'a') as outfile:
+            json.dump(readJson, outfile,indent=4)
     except:
+        #print(readStr)
         print("not valid json") #At the start it is common for a partial JSON doc to be recieved and throw an error - this ignores it
         pass
 
@@ -40,7 +53,7 @@ def writeJSON(led):
 i=0
 while True:
     listenJSON()
-    writeJSON(i)
+    #writeJSON(i)
     i=i+1
     if i == 8:
         i=0
