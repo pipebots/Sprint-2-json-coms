@@ -16,7 +16,7 @@ ser.flushInput()
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 filename = timestr + "-sprintbot-data.txt"
-
+start = time.time()
 # function to read JSON doc from serial and parse variables from it
 def listenJSON():
     try:
@@ -37,7 +37,10 @@ def listenJSON():
         #print(imu)
         #print(wheel1Pos, wheel1Revs, wheel2Pos, wheel2Revs)
         
-        timestamp = {"timestamp":time.strftime("%H %M %S")}
+        #timestamp = {"timestamp":time.strftime("%H %M %S")}
+        timestamp = {"elapsedTime":"{:0.3f}".format(time.time()-start)}
+        print(timestamp)
+        #timestamp = {"timestamp":time.time}
         readJson.update(timestamp) #append timestamp to JSON file
         
         with open(filename, 'a') as outfile:
