@@ -14,6 +14,9 @@ import time
 ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to arduino
 ser.flushInput()
 
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename = timestr + "-sprintbot-data.txt"
+start = time.time()
 # function to read JSON doc from serial and parse variables from it
 def listenJSON():
     try:
@@ -21,13 +24,29 @@ def listenJSON():
         #print(readStr)
         readJson = json.loads(readStr) 
         #print(readJson)
-        dist = readJson["Colour"]
-        imu = readJson["imu"]
-        roll = imu[0]
-        pitch = imu[1]
-        yaw = imu[2]
-        print(dist,roll,pitch,yaw,)
+        #wheel1Pos = readJson["wheel1Pos"]
+        #wheel1Revs = readJson["wheel1Revs"]
+        #wheel2Pos = readJson["wheel2Pos"]
+        #wheel2Revs = readJson["wheel2Revs"]
+        
+        #dist = readJson["Colour"]
+        #imu = readJson["imu"]
+        #roll = imu[0]
+        #pitch = imu[1]
+        #yaw = imu[2]
+        #print(imu)
+        #print(wheel1Pos, wheel1Revs, wheel2Pos, wheel2Revs)
+        
+        #timestamp = {"timestamp":time.strftime("%H %M %S")}
+        timestamp = {"elapsedTime":"{:0.3f}".format(time.time()-start)}
+        print(timestamp)
+        #timestamp = {"timestamp":time.time}
+        readJson.update(timestamp) #append timestamp to JSON file
+        
+        with open(filename, 'a') as outfile:
+            json.dump(readJson, outfile,indent=4) #save to file
     except:
+        #print(readStr)
         print("not valid json") #At the start it is common for a partial JSON doc to be recieved and throw an error - this ignores it
         pass
 
@@ -40,7 +59,7 @@ def writeJSON(led):
 i=0
 while True:
     listenJSON()
-    writeJSON(i)
+    #writeJSON(i)
     i=i+1
     if i == 8:
         i=0
