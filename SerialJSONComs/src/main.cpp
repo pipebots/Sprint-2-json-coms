@@ -1,12 +1,12 @@
 /*                                     __
-__________.__             ___.     |__|  __          
+__________.__             ___.     |__|  __
 \______   \__|_____   ____\_ |__   _||__/  |_  ______
  |     ___/  \____ \_/ __ \| __ \ /  _ \   __\/  ___/
- |    |   |  |  |_> >  ___/| \_\ (  O_O )  |  \___ \ 
+ |    |   |  |  |_> >  ___/| \_\ (  O_O )  |  \___ \
  |____|   |__|   __/ \___  >___  /\____/|__| /____  >
-             |__|        \/    \/                 \/ 
-             
-Arduino code to send data using JSON formal via serial */
+             |__|        \/    \/                 \/
+
+Arduino code to send data using JSON format via serial */
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
