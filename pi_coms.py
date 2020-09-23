@@ -5,19 +5,18 @@
 # |    |   |  |  |_> >  ___/| \_\ (  O_O )  |  \___ \
 # |____|   |__|   __/ \___  >___  /\____/|__| /____  >
 #             |__|        \/    \/                 \/
-# Run on pi to listen for JSON doc and parse contents, also sends JSON via serial to ardunio
+# Python module to run on pi to listen for JSON doc and parse contents, also sends JSON via serial to ardunio
 
 import serial
 import json
 import time
 
-#function to connect serial and start timer, use at start of scrip
-def init_coms():
-    ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to arduino
-    ser.flushInput()
-    timestr = time.strftime("%Y%m%d-%H%M%S")
-    filename = timestr + "-sprintbot-data.txt"
-    start = time.time()
+#Connect serial and start timer
+ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to arduino
+ser.flushInput()
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename = timestr + "-sprintbot-data.txt"
+start = time.time()
 
 # function to read JSON doc from serial and parse variables from it
 def listenJSON():
@@ -26,25 +25,10 @@ def listenJSON():
         #print(readStr)
         readJson = json.loads(readStr)
         #print(readJson)
-        #wheel1Pos = readJson["wheel1Pos"]
-        #wheel1Revs = readJson["wheel1Revs"]
-        #wheel2Pos = readJson["wheel2Pos"]
-        #wheel2Revs = readJson["wheel2Revs"]
-
-        #dist = readJson["Colour"]
-        #imu = readJson["imu"]
-        #roll = imu[0]
-        #pitch = imu[1]
-        #yaw = imu[2]
-        #print(imu)
-        #print(wheel1Pos, wheel1Revs, wheel2Pos, wheel2Revs)
-
-        #timestamp = {"timestamp":time.strftime("%H %M %S")}
         timestamp = {"elapsedTime":"{:0.3f}".format(time.time()-start)}
-        print(timestamp)
-        #timestamp = {"timestamp":time.time}
+        #print(timestamp)
         readJson.update(timestamp) #append timestamp to JSON file
-
+        print(readJson)
         with open(filename, 'a') as outfile:
             json.dump(readJson, outfile,indent=4) #save to file
     except:
