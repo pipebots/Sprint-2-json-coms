@@ -24,15 +24,15 @@ Function to read JSON doc from serial and add a timestamp.
 If successful, returns the json doc with timestamp added.
 If read unsuccessful, returns null
 
-# saveJSON()
+### saveJSON()
 Function to save JSON doc to txt file.
 A time and date stamped file is created when the script starts.
 This function appends the json doc to the end.
 
-# writeJSON()
+### writeJSON()
 Function to send data formatted as JSON doc over serial
 
-## JSON Doc
+#### JSON Doc
 The commands that can be sent are
 ```
 doc = {
