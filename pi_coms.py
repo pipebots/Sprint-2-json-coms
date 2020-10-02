@@ -12,32 +12,32 @@ import json
 import time
 
 #Connect serial and start timer
-ser = serial.Serial('/dev/ttyACM0', 9600) #address when using USB cable to arduino
+ser = serial.Serial('/dev/ttyACM0', 115200) #address when using USB cable to arduino
 ser.flushInput()
 timestr = time.strftime("%Y%m%d-%H%M%S")
 filename = timestr + "-sprintbot-data.txt"
 start = time.time()
 
-# function to read JSON doc from serial and parse variables from it
+# function to read JSON doc from serial and add a timestamp
 def listenJSON():
     try:
         readStr = ser.readline() #doc is sent with line end termination
-        #print(readStr)
         readJson = json.loads(readStr)
-        #print(readJson)
         timestamp = {"elapsedTime":"{:0.3f}".format(time.time()-start)}
-        #print(timestamp)
         readJson.update(timestamp) #append timestamp to JSON file
-        print(readJson)
-        with open(filename, 'a') as outfile:
-            json.dump(readJson, outfile,indent=4) #save to file
+        return readJson
+
     except:
         #print(readStr)
         print("not valid json") #At the start it is common for a partial JSON doc to be recieved and throw an error - this ignores it
         pass
 
+# function to save json doc
+def saveJSON(readJson):
+    with open(filename, 'a') as outfile:
+        json.dump(readJson, outfile,indent=4) #save to file
+            
 #function to send data formatted as JSON doc over serial
 def writeJSON(doc):
     sendStr = json.dumps(doc, separators=(',',':')) + "\n"
-    #print(sendStr)
     ser.write(sendStr.encode('utf-8')) #has to be encoded into bits for .write

@@ -3,17 +3,24 @@ import pi_coms as com
 import time
 
 i=0
+x = {
+    'auto_case':0,
+    'spd_limit':0.6,
+    'timeout':1000
+    }
+
 while True:
-    com.listenJSON()
-    x = {
-        'LED':i,
-        'auto_case':0
-        'spd_limit':0
-        }
-         
+    doc = com.listenJSON() 
+    print(doc)
+    #data can be parsed from the doc here e.g:
+    #wheel1Pos = doc["wheel1Pos"]
+    
+    #only needed if you want to keep the data
+    com.saveJSON(doc) 
+
+    # Send doc to arduino, can be partially filled.
     com.writeJSON(x)
     
-    i=i+1
-    if i == 8:
-        i=0
-    time.sleep(0.25) #so it can be seen when debugging
+    # set to same speed arduino is outputting, helps it to not read partial docs.
+    # obviously dont use this blocking function in a proper program.
+    time.sleep(0.05) 

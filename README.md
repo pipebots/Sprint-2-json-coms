@@ -16,7 +16,21 @@ Low level motor control and sensor polling is done on the Arduino nano sense.
 This is connected to the raspberry pi via a usb cable and serial communication is used to pass data between the devices.  
 This is done using JSON libraries for simplicity, with a new line termination.   
 The code for this is in Sprint-2-JSON-coms repo.  
-Pi_coms.py can be imported as a library and called to listen and write to serial. 
+
+Pi_coms.py can be imported as a library and called to listen and write to serial and save to file. 
+
+# listenJSON()
+Function to read JSON doc from serial and add a timestamp.
+If successful, returns the json doc with timestamp added.
+If read unsuccessful, returns null
+
+# saveJSON()
+Function to save JSON doc to txt file.
+A time and date stamped file is created when the script starts.
+This function appends the json doc to the end.
+
+# writeJSON()
+Function to send data formatted as JSON doc over serial
 
 ## JSON Doc
 The commands that can be sent are
