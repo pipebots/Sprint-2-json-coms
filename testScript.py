@@ -6,7 +6,7 @@ i=0
 x = {
     'auto_case':0,
     'spd_limit':0.6,
-    'timeout':1000
+    'timeout':1000 #set a default for this so that if the comms disconect the robot will stop after this time
     }
 
 while True:
@@ -23,4 +23,4 @@ while True:
     
     # set to same speed arduino is outputting, helps it to not read partial docs.
     # obviously dont use this blocking function in a proper program.
-    time.sleep(0.05) 
+    time.sleep(0.02) 
