@@ -7,7 +7,7 @@ while True:
     com.listenJSON()
     x = {
         'LED':i,
-        'mv_case':0
+        'auto_case':0
         'spd_limit':0
         }
          
